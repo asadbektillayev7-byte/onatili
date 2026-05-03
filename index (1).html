@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ona tili | Dilshod Mirzayev</title>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --red:    #E63946;
+      --navy:   #1D3557;
+      --yellow: #F7B731;
+      --green:  #2DC653;
+      --white:  #FFFDF7;
+      --dark:   #0D1B2A;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Nunito', sans-serif; background: var(--white); color: var(--dark); overflow-x: hidden; }
+
+    /* HERO */
+    .hero {
+      background: var(--navy); color: white;
+      position: relative; overflow: hidden;
+      min-height: 100vh; display: flex; flex-direction: column;
+      justify-content: center; align-items: center; text-align: center; padding: 2rem 1.5rem;
+    }
+    .hero::before {
+      content:''; position:absolute; width:600px; height:600px;
+      background:var(--red); border-radius:50%; top:-200px; right:-150px; opacity:0.25;
+    }
+    .hero::after {
+      content:''; position:absolute; width:400px; height:400px;
+      background:var(--yellow); border-radius:50%; bottom:-150px; left:-100px; opacity:0.2;
+    }
+    .hero-badge {
+      background:var(--yellow); color:var(--dark);
+      font-family:'Unbounded',sans-serif; font-size:0.65rem; font-weight:700;
+      letter-spacing:0.12em; text-transform:uppercase;
+      padding:0.4rem 1.2rem; border-radius:50px; margin-bottom:1.5rem;
+      display:inline-block; animation:fadeDown 0.6s ease both;
+    }
+    .hero h1 {
+      font-family:'Unbounded',sans-serif; font-size:clamp(2.2rem,6vw,4.5rem);
+      font-weight:900; line-height:1.1; margin-bottom:0.6rem;
+      animation:fadeDown 0.7s ease 0.1s both;
+    }
+    .hero h1 span { color:var(--yellow); }
+    .hero .subtitle {
+      font-size:1.15rem; opacity:0.8; max-width:520px;
+      margin:0 auto 2.5rem; animation:fadeDown 0.7s ease 0.2s both;
+    }
+    .hero-btns { display:flex; gap:1rem; flex-wrap:wrap; justify-content:center; animation:fadeDown 0.7s ease 0.3s both; }
+    .btn {
+      display:inline-flex; align-items:center; gap:0.5rem;
+      padding:0.85rem 2rem; border-radius:50px;
+      font-family:'Unbounded',sans-serif; font-size:0.8rem; font-weight:700;
+      text-decoration:none; cursor:pointer; border:none;
+      transition:transform 0.2s, box-shadow 0.2s;
+    }
+    .btn:hover { transform:translateY(-3px); box-shadow:0 8px 24px rgba(0,0,0,0.2); }
+    .btn-yellow  { background:var(--yellow); color:var(--dark); }
+    .btn-outline { background:transparent; border:2px solid white; color:white; }
+    .scroll-down {
+      position:absolute; bottom:2rem; left:50%; transform:translateX(-50%);
+      color:white; opacity:0.5; font-size:1.5rem; animation:bounce 1.5s infinite;
+    }
+
+    /* STATS */
+    .stats-bar { background:var(--red); display:flex; justify-content:center; flex-wrap:wrap; }
+    .stat-item { padding:1.5rem 3rem; text-align:center; color:white; border-right:1px solid rgba(255,255,255,0.2); }
+    .stat-item:last-child { border-right:none; }
+    .stat-num { font-family:'Unbounded',sans-serif; font-size:2rem; font-weight:900; display:block; }
+    .stat-label { font-size:0.8rem; opacity:0.85; }
+
+    /* SECTIONS */
+    section { padding:5rem 1.5rem; }
+    .container { max-width:1100px; margin:0 auto; }
+    .section-tag {
+      font-family:'Unbounded',sans-serif; font-size:0.65rem; font-weight:700;
+      letter-spacing:0.15em; text-transform:uppercase; color:var(--red); margin-bottom:0.5rem;
+    }
+    .section-title {
+      font-family:'Unbounded',sans-serif; font-size:clamp(1.6rem,4vw,2.6rem);
+      font-weight:900; color:var(--navy); margin-bottom:1rem; line-height:1.2;
+    }
+    .section-title span { color:var(--red); }
+
+    /* ABOUT */
+    .about-grid { display:grid; grid-template-columns:1fr 1fr; gap:3rem; align-items:center; margin-top:3rem; }
+    .about-card {
+      background:var(--navy); border-radius:24px; padding:2.5rem;
+      color:white; position:relative; overflow:hidden;
+    }
+    .about-card::before { content:'📚'; position:absolute; font-size:8rem; right:-1rem; bottom:-1rem; opacity:0.1; }
+    .teacher-name { font-family:'Unbounded',sans-serif; font-size:1.8rem; font-weight:900; margin-bottom:0.3rem; }
+    .teacher-role { color:var(--yellow); font-weight:700; font-size:0.9rem; margin-bottom:1.5rem; }
+    .contact-list { list-style:none; display:flex; flex-direction:column; gap:0.8rem; }
+    .contact-list li { display:flex; align-items:center; gap:0.8rem; font-size:1rem; }
+    .contact-icon { width:40px; height:40px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:1.1rem; flex-shrink:0; }
+    .icon-phone { background:var(--green); }
+    .icon-tg    { background:#0088cc; }
+    .contact-list a { color:white; text-decoration:none; }
+    .contact-list a:hover { text-decoration:underline; }
+    .about-info { display:flex; flex-direction:column; gap:1.2rem; }
+    .info-card {
+      background:white; border-radius:16px; padding:1.3rem 1.5rem;
+      display:flex; align-items:flex-start; gap:1rem;
+      box-shadow:0 4px 16px rgba(0,0,0,0.07); border-left:5px solid var(--yellow);
+      transition:transform 0.2s;
+    }
+    .info-card:hover { transform:translateX(6px); }
+    .info-card:nth-child(2) { border-left-color:var(--red); }
+    .info-card:nth-child(3) { border-left-color:var(--green); }
+    .info-icon { font-size:1.6rem; flex-shrink:0; }
+    .info-label { font-size:0.75rem; color:#888; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; }
+    .info-value { font-weight:700; font-size:1rem; color:var(--navy); margin-top:0.1rem; }
+
+    /* GRADES */
+    .grades-section { background:var(--dark); }
+    .grades-section .section-title { color:white; }
+    .grades-section .section-title span { color:var(--yellow); }
+    .grades-section .section-tag { color:var(--yellow); }
+    .grades-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:1rem; margin-top:2.5rem; }
+    .grade-card { border-radius:20px; padding:1.5rem 1rem; text-align:center; color:white; font-weight:700; transition:transform 0.2s; cursor:default; }
+    .grade-card:hover { transform:scale(1.05); }
+    .grade-letter { font-family:'Unbounded',sans-serif; font-size:2.5rem; font-weight:900; display:block; margin-bottom:0.3rem; }
+    .grade-range { font-size:0.8rem; opacity:0.85; }
+    .grade-desc  { font-size:0.72rem; margin-top:0.3rem; opacity:0.7; }
+    .g-aplus { background:linear-gradient(135deg,#E63946,#c1121f); }
+    .g-a     { background:linear-gradient(135deg,#F77F00,#d62828); }
+    .g-bplus { background:linear-gradient(135deg,#F7B731,#f3722c); }
+    .g-b     { background:linear-gradient(135deg,#2DC653,#1a7a32); }
+    .g-cplus { background:linear-gradient(135deg,#1D3557,#457b9d); }
+    .g-c     { background:linear-gradient(135deg,#457b9d,#1D3557); }
+
+    /* RESULTS */
+    .results-section { background:#f7f7fb; }
+    .search-bar { display:flex; gap:0.8rem; margin:2rem 0 1.5rem; flex-wrap:wrap; }
+    .search-bar input {
+      flex:1; min-width:220px; padding:0.85rem 1.3rem;
+      border:2px solid #e0e0e0; border-radius:50px;
+      font-family:'Nunito',sans-serif; font-size:0.95rem; outline:none; transition:border-color 0.2s;
+    }
+    .search-bar input:focus { border-color:var(--navy); }
+    .state-box { text-align:center; padding:3rem; border-radius:16px; background:white; box-shadow:0 4px 24px rgba(0,0,0,0.06); }
+    .state-box .icon { font-size:3rem; margin-bottom:1rem; }
+    .state-box p { color:#888; }
+    .spinner {
+      width:40px; height:40px; border:4px solid #e0e0e0;
+      border-top-color:var(--red); border-radius:50%;
+      animation:spin 0.8s linear infinite; margin:0 auto 1rem;
+    }
+    .results-table { width:100%; border-collapse:collapse; background:white; border-radius:16px; overflow:hidden; box-shadow:0 4px 24px rgba(0,0,0,0.08); }
+    .results-table thead { background:var(--navy); }
+    .results-table th { padding:1rem 1.2rem; text-align:left; color:white; font-family:'Unbounded',sans-serif; font-size:0.7rem; letter-spacing:0.05em; text-transform:uppercase; }
+    .results-table td { padding:0.95rem 1.2rem; border-bottom:1px solid #f0f0f0; font-size:0.95rem; }
+    .results-table tr:last-child td { border-bottom:none; }
+    .results-table tr:hover td { background:#f7f9ff; }
+    .badge { display:inline-block; padding:0.25rem 0.8rem; border-radius:50px; font-family:'Unbounded',sans-serif; font-size:0.7rem; font-weight:700; color:white; }
+    .badge-aplus { background:var(--red); }
+    .badge-a     { background:#F77F00; }
+    .badge-bplus { background:#F7B731; color:var(--dark); }
+    .badge-b     { background:var(--green); }
+    .badge-cplus { background:var(--navy); }
+    .badge-c     { background:#457b9d; }
+    .no-results  { text-align:center; padding:2rem; color:#aaa; font-style:italic; display:none; }
+
+    /* FOOTER */
+    footer { background:var(--dark); color:white; text-align:center; padding:2.5rem 1.5rem; }
+    .footer-logo { font-family:'Unbounded',sans-serif; font-size:1.2rem; font-weight:900; margin-bottom:0.5rem; }
+    .footer-logo span { color:var(--yellow); }
+    footer p { opacity:0.5; font-size:0.85rem; margin-top:0.3rem; }
+
+    /* ANIMATIONS */
+    @keyframes fadeDown { from{opacity:0;transform:translateY(-20px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(-8px)} }
+    @keyframes spin { to{transform:rotate(360deg)} }
+    .reveal { opacity:0; transform:translateY(30px); transition:opacity 0.6s ease,transform 0.6s ease; }
+    .reveal.visible { opacity:1; transform:translateY(0); }
+
+    @media(max-width:700px) {
+      .about-grid { grid-template-columns:1fr; }
+      .stat-item  { padding:1.2rem 1.5rem; }
+      .grades-grid { grid-template-columns:repeat(3,1fr); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div style="position:relative;z-index:1;">
+    <span class="hero-badge">🏅 Milliy Sertifikat Kursi</span>
+    <h1>Ona tili va<br><span>Adabiyot</span></h1>
+    <p class="subtitle">Dilshod Mirzayev bilan milliy sertifikatga tayyorlanib, yuqori ball oling!</p>
+    <div class="hero-btns">
+      <a href="#results" class="btn btn-yellow">📊 Natijalarni ko'rish</a>
+      <a href="https://t.me/Onatili_MD" target="_blank" class="btn btn-outline">✈️ Telegram</a>
+    </div>
+  </div>
+  <div class="scroll-down">↓</div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat-item"><span class="stat-num" id="total-students">—</span><span class="stat-label">Jami talabgorlar</span></div>
+  <div class="stat-item"><span class="stat-num" id="aplus-count">—</span><span class="stat-label">A+ daraja</span></div>
+  <div class="stat-item"><span class="stat-num" id="avg-score">—</span><span class="stat-label">O'rtacha ball</span></div>
+</div>
+
+<!-- ABOUT -->
+<section id="teacher">
+  <div class="container">
+    <div class="section-tag">👨‍🏫 O'qituvchi haqida</div>
+    <div class="section-title">Siz bilan ishlaydi: <span>Dilshod Mirzayev</span></div>
+    <div class="about-grid reveal">
+      <div class="about-card">
+        <div class="teacher-name">Dilshod Mirzayev</div>
+        <div class="teacher-role">Ona tili va Adabiyot o'qituvchisi</div>
+        <ul class="contact-list">
+          <li><div class="contact-icon icon-phone">📞</div><a href="tel:+998971353637">+998 97 135 36 37</a></li>
+          <li><div class="contact-icon icon-tg">✈️</div><a href="https://t.me/Onatili_MD" target="_blank">@Onatili_MD</a></li>
+        </ul>
+      </div>
+      <div class="about-info">
+        <div class="info-card"><div class="info-icon">🎯</div><div><div class="info-label">Kurs maqsadi</div><div class="info-value">Milliy sertifikatda yuqori ball olish</div></div></div>
+        <div class="info-card"><div class="info-icon">📋</div><div><div class="info-label">Kurs tafsilotlari</div><div class="info-value">Tez kunda qo'shiladi...</div></div></div>
+        <div class="info-card"><div class="info-icon">📍</div><div><div class="info-label">Bog'lanish</div><div class="info-value">Telegram orqali yozing</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GRADES -->
+<section class="grades-section">
+  <div class="container">
+    <div class="section-tag">📊 Baholash tizimi</div>
+    <div class="section-title">Sertifikat <span>darajalari</span></div>
+    <p style="color:#aaa;margin-top:0.5rem;font-size:0.95rem;">"Ona tili va Adabiyot fanidan milliy sertifikat" baholash tizimi</p>
+    <div class="grades-grid reveal">
+      <div class="grade-card g-aplus"><span class="grade-letter">A+</span><div class="grade-range">70 ball va undan yuqori</div><div class="grade-desc">A'lo daraja</div></div>
+      <div class="grade-card g-a"><span class="grade-letter">A</span><div class="grade-range">65 – 69.9 ball</div><div class="grade-desc">Yuqori daraja</div></div>
+      <div class="grade-card g-bplus"><span class="grade-letter">B+</span><div class="grade-range">60 – 64.9 ball</div><div class="grade-desc">Yaxshi daraja</div></div>
+      <div class="grade-card g-b"><span class="grade-letter">B</span><div class="grade-range">55 – 59.9 ball</div><div class="grade-desc">O'rtadan yuqori</div></div>
+      <div class="grade-card g-cplus"><span class="grade-letter">C+</span><div class="grade-range">50 – 54.9 ball</div><div class="grade-desc">O'rta daraja</div></div>
+      <div class="grade-card g-c"><span class="grade-letter">C</span><div class="grade-range">46 – 49.9 ball</div><div class="grade-desc">Qoniqarli</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section class="results-section" id="results">
+  <div class="container">
+    <div class="section-tag">🏆 Natijalar</div>
+    <div class="section-title">O'quvchilar <span>natijalari</span></div>
+    <p style="color:#666;margin-top:0.5rem;">Milliy sertifikat imtihonida o'quvchilarimiz erishgan natijalar</p>
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="🔍  Ism bo'yicha qidiring..." oninput="filterTable()"/>
+    </div>
+    <div class="state-box" id="loadingState"><div class="spinner"></div><p>Natijalar yuklanmoqda...</p></div>
+    <div class="state-box" id="errorState" style="display:none;"><div class="icon">⚠️</div><p>Ma'lumotlarni yuklashda xatolik. Sahifani yangilang.</p></div>
+    <div id="tableWrapper" style="display:none;">
+      <table class="results-table reveal">
+        <thead><tr><th>#</th><th>Ism Familiya</th><th>Ball</th><th>Daraja</th></tr></thead>
+        <tbody id="resultsBody"></tbody>
+      </table>
+      <div class="no-results" id="noResults">Hech qanday natija topilmadi 😕</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Ona <span>tili</span></div>
+  <p>Dilshod Mirzayev | Milliy Sertifikat Kursi</p>
+  <p style="margin-top:0.8rem;">
+    <a href="tel:+998971353637" style="color:var(--yellow);text-decoration:none;">+998 97 135 36 37</a>
+    &nbsp;·&nbsp;
+    <a href="https://t.me/Onatili_MD" target="_blank" style="color:var(--yellow);text-decoration:none;">@Onatili_MD</a>
+  </p>
+</footer>
+
+<script>
+  const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQWxD8v6NQ3MjS8K2-Kdm5i2ib_PEAOcD4iAq8Aj3IBHx1VMifehDale1Ej-FY7v5DQu69i5-hzcv7E/pub?gid=0&single=true&output=csv";
+
+  let allStudents = [];
+
+  function getGrade(score) {
+    if (score >= 70) return { label:"A+", cls:"badge-aplus" };
+    if (score >= 65) return { label:"A",  cls:"badge-a"     };
+    if (score >= 60) return { label:"B+", cls:"badge-bplus" };
+    if (score >= 55) return { label:"B",  cls:"badge-b"     };
+    if (score >= 50) return { label:"C+", cls:"badge-cplus" };
+    return                  { label:"C",  cls:"badge-c"     };
+  }
+
+  function buildTable(data) {
+    const tbody = document.getElementById('resultsBody');
+    tbody.innerHTML = '';
+    data.forEach((s, i) => {
+      const g  = getGrade(s.score);
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td style="color:#aaa;font-weight:700;">${i+1}</td>
+        <td style="font-weight:700;">${s.name}</td>
+        <td style="font-family:'Unbounded',sans-serif;font-weight:700;color:var(--navy);">${s.score}</td>
+        <td><span class="badge ${g.cls}">${g.label}</span></td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+
+  function filterTable() {
+    const q = document.getElementById('searchInput').value.toLowerCase();
+    const filtered = allStudents.filter(s => s.name.toLowerCase().includes(q));
+    buildTable(filtered);
+    document.getElementById('noResults').style.display = filtered.length ? 'none' : 'block';
+  }
+
+  function updateStats(students) {
+    const total = students.length;
+    const aplus = students.filter(s => s.score >= 70).length;
+    const avg   = total ? (students.reduce((a,s) => a + s.score, 0) / total).toFixed(1) : '—';
+    document.getElementById('total-students').textContent = total;
+    document.getElementById('aplus-count').textContent    = aplus;
+    document.getElementById('avg-score').textContent      = avg;
+  }
+
+  function parseCSV(text) {
+    const lines = text.trim().split('\n');
+    return lines.slice(1)
+      .map(line => {
+        const cols  = line.split(',');
+        const name  = (cols[0] || '').trim().replace(/^"|"$/g, '');
+        const score = parseFloat((cols[1] || '').trim());
+        return { name, score };
+      })
+      .filter(s => s.name && !isNaN(s.score));
+  }
+
+  async function loadStudents() {
+    try {
+      const proxy = "https://api.allorigins.win/get?url=" + encodeURIComponent(SHEET_URL);
+      const res   = await fetch(proxy);
+      const json  = await res.json();
+      allStudents = parseCSV(json.contents);
+
+      document.getElementById('loadingState').style.display = 'none';
+      document.getElementById('tableWrapper').style.display = 'block';
+      buildTable(allStudents);
+      updateStats(allStudents);
+      document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
+    } catch(err) {
+      console.error(err);
+      document.getElementById('loadingState').style.display = 'none';
+      document.getElementById('errorState').style.display   = 'block';
+    }
+  }
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.reveal').forEach(r => observer.observe(r));
+
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior:'smooth' });
+    });
+  });
+
+  loadStudents();
+</script>
+</body>
+</html>
