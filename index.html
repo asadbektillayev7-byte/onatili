@@ -22,8 +22,8 @@
     .navbar.scrolled { box-shadow:0 4px 20px rgba(0,0,0,0.08); }
     .nav-inner { max-width:1100px; width:100%; margin:0 auto; display:flex; align-items:center; justify-content:space-between; }
     .nav-logo { display:flex; align-items:center; gap:0.65rem; text-decoration:none; }
-    .nav-logo-icon { width:36px; height:36px; background:var(--navy); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:0.75rem; font-weight:800; color:white; flex-shrink:0; }
-    .nav-logo-text { font-size:0.95rem; font-weight:800; color:var(--dark); }
+    .nav-logo-icon { width:40px; height:40px; background:var(--navy); border-radius:10px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+    .nav-logo-text { font-size:0.82rem; font-weight:700; color:var(--dark); line-height:1.2; }
     .nav-links { display:flex; align-items:center; gap:0.3rem; list-style:none; }
     .nav-links a { text-decoration:none; color:#555; font-size:0.9rem; font-weight:600; padding:0.4rem 0.85rem; border-radius:8px; transition:background 0.2s,color 0.2s; }
     .nav-links a:hover { background:#f0f0f0; color:var(--dark); }
@@ -77,6 +77,7 @@
     .contact-icon { width:36px; height:36px; border-radius:9px; display:flex; align-items:center; justify-content:center; font-size:1rem; flex-shrink:0; }
     .icon-phone { background:var(--green); }
     .icon-tg    { background:#0088cc; }
+    .icon-tg svg { width:18px; height:18px; fill:white; }
     .contact-list a { color:white; text-decoration:none; font-weight:500; }
     .contact-list a:hover { text-decoration:underline; }
     .about-info { display:flex; flex-direction:column; gap:1.2rem; }
@@ -174,8 +175,14 @@
 <nav class="navbar" id="navbar">
   <div class="nav-inner">
     <a href="#home" class="nav-logo">
-      <div class="nav-logo-icon">OT</div>
-      <span class="nav-logo-text">Ona tili</span>
+      <div class="nav-logo-icon">
+        <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:22px;height:22px;">
+          <circle cx="18" cy="12" r="6" fill="#F7B731"/>
+          <path d="M6 30c0-6.627 5.373-12 12-12s12 5.373 12 12" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M14 10l2 2 4-4" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <span class="nav-logo-text">Asliddin Edu &mdash; Ona Tili va Adabiyot</span>
     </a>
     <ul class="nav-links">
       <li><a href="#home" class="active">Bosh sahifa</a></li>
@@ -201,7 +208,7 @@
     <p class="subtitle">Dilshod Mirzayev bilan milliy sertifikatga tayyorlanib, yuqori ball oling!</p>
     <div class="hero-btns">
       <a href="#results" class="btn btn-yellow">📊 Natijalarni ko'rish</a>
-      <a href="https://t.me/Onatili_MD" target="_blank" class="btn btn-outline">✈️ Telegram</a>
+      <a href="https://t.me/Onatili_MD" target="_blank" class="btn btn-outline"><svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:white;flex-shrink:0"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.19 13.267l-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.958.292z"/></svg> Telegram</a>
     </div>
   </div>
   <div class="scroll-down">↓</div>
@@ -226,15 +233,25 @@
           <div class="teacher-name">Dilshod Mirzayev</div>
           <div class="teacher-role">Ona tili va Adabiyot o'qituvchisi</div>
           <ul class="contact-list">
-            <li><div class="contact-icon icon-phone">📞</div><a href="tel:+998971353637">+998 97 135 36 37</a></li>
-            <li><div class="contact-icon icon-tg">✈️</div><a href="https://t.me/Onatili_MD" target="_blank">@Onatili_MD</a></li>
+            <li>
+              <div class="contact-icon icon-phone">
+                <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg" style="width:18px;height:18px;"><path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 011 1V20a1 1 0 01-1 1C10.61 21 3 13.39 3 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.46.57 3.58a1 1 0 01-.25 1.01l-2.2 2.2z"/></svg>
+              </div>
+              <a href="tel:+998971353637">+998 97 135 36 37</a>
+            </li>
+            <li>
+              <div class="contact-icon icon-tg">
+                <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg" style="width:18px;height:18px;"><path d="M11.944 0A12 12 0 000 12a12 12 0 0012 12 12 12 0 0012-12A12 12 0 0012 12 12 12 0 0011.944 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 01.171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+              </div>
+              <a href="https://t.me/Onatili_MD" target="_blank">@Onatili_MD</a>
+            </li>
           </ul>
         </div>
       </div>
       <div class="about-info">
         <div class="info-card"><div class="info-icon">🎯</div><div><div class="info-label">Kurs maqsadi</div><div class="info-value">Milliy sertifikatda yuqori ball olish</div></div></div>
-        <div class="info-card"><div class="info-icon">📋</div><div><div class="info-label">Kurs tafsilotlari</div><div class="info-value">Tez kunda qo'shiladi...</div></div></div>
-        <div class="info-card"><div class="info-icon">📍</div><div><div class="info-label">Bog'lanish</div><div class="info-value">Telegram orqali yozing</div></div></div>
+        <div class="info-card"><div class="info-icon">📅</div><div><div class="info-label">Tajriba</div><div class="info-value">3 yillik o'qituvchilik tajribasi</div></div></div>
+        <div class="info-card"><div class="info-icon">✈️</div><div><div class="info-label">Bog'lanish</div><div class="info-value">Telegram orqali yozing</div></div></div>
       </div>
     </div>
   </div>
