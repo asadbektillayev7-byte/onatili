@@ -6,6 +6,105 @@
   <title>Ona tili | Dilshod Mirzayev</title>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
   <style>
+    .hero-new {
+  min-height: 100vh;
+  background: #0D1B2A;
+  color: white;
+  display: flex;
+  align-items: center;
+  padding: 4rem 2rem;
+}
+
+.hero-container {
+  max-width: 1200px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  gap: 4rem;
+  flex-wrap: wrap;
+}
+
+/* LEFT SIDE */
+.hero-left {
+  position: relative;
+  flex: 1;
+  min-width: 300px;
+}
+
+.teacher-img {
+  width: 100%;
+  max-width: 350px;
+  border-radius: 20px;
+  z-index: 2;
+  position: relative;
+}
+
+/* FLOATING IMAGES */
+.floating {
+  position: absolute;
+  width: 80px;
+  border-radius: 12px;
+  opacity: 0.85;
+  animation: float 10s ease-in-out infinite;
+}
+
+/* Positions */
+.f1 { top: -20px; left: -40px; }
+.f2 { top: 50px; right: -30px; }
+.f3 { bottom: -20px; left: 20px; }
+.f4 { bottom: 30px; right: -40px; }
+
+/* Animation */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+  100% { transform: translateY(0px); }
+}
+
+/* RIGHT SIDE */
+.hero-right {
+  flex: 1;
+  min-width: 300px;
+}
+
+.hero-right h1 {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+}
+
+.hero-right p {
+  font-size: 1.1rem;
+  opacity: 0.8;
+  margin-bottom: 2rem;
+}
+
+.hero-btn {
+  display: inline-block;
+  background: #F7B731;
+  color: black;
+  padding: 12px 28px;
+  border-radius: 50px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.hero-btn:hover {
+  background: #ffcc4d;
+}
+
+/* MOBILE */
+@media(max-width: 768px) {
+  .hero-container {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .floating {
+    display: none;
+  }
+}
     :root {
       --red:    #E63946;
       --navy:   #1D3557;
