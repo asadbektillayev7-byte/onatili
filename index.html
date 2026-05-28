@@ -479,7 +479,7 @@
     <div id="tableWrapper" style="display:none;">
       <div class="table-wrap">
         <table class="results-table">
-          <thead><tr><th>#</th><th>Ism Familiya</th><th>Ball</th><th>Daraja</th><th>Sertifikat</th></tr></thead>
+          <thead><tr><th>#</th><th>Ism Familiya</th><th>Daraja</th><th>Sertifikat</th></tr></thead>
           <tbody id="resultsBody"></tbody>
         </table>
       </div>
@@ -579,7 +579,7 @@
         ?`<button class="proof-btn" onclick="openModal('${escA(s.name)}','${escA(imgUrl)}')">&#128196; Ko'rish</button>`
         :`<span style="color:rgba(255,255,255,0.15);">—</span>`;
       const tr=document.createElement("tr");
-      tr.innerHTML=`<td style="color:rgba(255,255,255,0.25);font-weight:600;">${i+1}</td><td style="font-weight:700;">${esc(s.name)}</td><td style="font-weight:800;color:var(--gold);">${s.score}</td><td><span class="badge ${g.cls}">${g.label}</span></td><td>${proof}</td>`;
+      tr.innerHTML=`<td style="color:rgba(255,255,255,0.25);font-weight:600;">${i+1}</td><td style="font-weight:700;">${esc(s.name)}</td><td><span class="badge ${g.cls}">${g.label}</span></td><td>${proof}</td>`;
       tbody.appendChild(tr);
     });
   }
