@@ -504,7 +504,7 @@
 </div>
 
 <script>
-  const APPS_SCRIPT_URL = "/api/students";
+  const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQWxD8v6NQ3MjS8K2-Kdm5i2ib_PEAOcD4iAq8Aj3IBHx1VMifehDale1Ej-FY7v5DQu69i5-hzcv7E/pub?gid=0&single=true&output=csv";
   let allStudents = [];
 
   function toDriveImgUrl(raw){
@@ -518,6 +518,24 @@
   }
   function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
   function escA(s){return String(s).replace(/'/g,"&#39;").replace(/"/g,"&quot;");}
+
+  function parseCSV(text){
+    const lines=text.trim().split("\n").slice(1);
+    return lines.map(line=>{
+      // handle quoted fields
+      const cols=[];let cur="",inQ=false;
+      for(let i=0;i<line.length;i++){
+        const ch=line[i];
+        if(ch==='"'){if(inQ&&line[i+1]==='"'){cur+='"';i++;}else inQ=!inQ;}
+        else if(ch===","&&!inQ){cols.push(cur.trim());cur="";}
+        else cur+=ch;
+      }
+      cols.push(cur.trim());
+      const name=(cols[0]||"").trim();
+      const imageUrl=(cols[1]||"").trim();
+      return{name,imageUrl};
+    }).filter(s=>s.name);
+  }
 
   function applyFilters(){
     const q=document.getElementById("searchInput").value.toLowerCase();
@@ -550,13 +568,10 @@
 
   async function loadStudents(){
     try{
-      const res=await fetch(APPS_SCRIPT_URL);
+      const res=await fetch(CSV_URL);
       if(!res.ok)throw new Error("failed");
-      const json=await res.json();
-      allStudents=json.map(row=>({
-        name: row["Name"] || "",
-        imageUrl: row["Certificate images"] || ""
-      })).filter(s=>s.name);
+      const text=await res.text();
+      allStudents=parseCSV(text);
       document.getElementById("loadingState").style.display="none";
       document.getElementById("tableWrapper").style.display="block";
       applyFilters();
