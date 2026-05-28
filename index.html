@@ -462,13 +462,6 @@
     <div class="section-title">O'quvchilar <span>natijalari</span></div>
     <p style="color:var(--muted);margin-top:0.4rem;">Milliy sertifikat imtihonida o'quvchilarimiz erishgan natijalar</p>
     <div class="filter-bar">
-      <button class="filter-btn active" onclick="setFilter('all',this)">Barchasi</button>
-      <button class="filter-btn" onclick="setFilter('A+',this)">A+</button>
-      <button class="filter-btn" onclick="setFilter('A',this)">A</button>
-      <button class="filter-btn" onclick="setFilter('B+',this)">B+</button>
-      <button class="filter-btn" onclick="setFilter('B',this)">B</button>
-      <button class="filter-btn" onclick="setFilter('C+',this)">C+</button>
-      <button class="filter-btn" onclick="setFilter('C',this)">C</button>
     </div>
     <div class="search-wrap">
       <input type="text" class="search-input" id="searchInput" placeholder="&#128269;  Ism bo'yicha qidiring..." oninput="applyFilters()"/>
@@ -479,7 +472,7 @@
     <div id="tableWrapper" style="display:none;">
       <div class="table-wrap">
         <table class="results-table">
-          <thead><tr><th>#</th><th>Ism Familiya</th><th>Daraja</th><th>Sertifikat</th></tr></thead>
+         <thead><tr><th>#</th><th>Ism Familiya</th><th>Sertifikat</th></tr></thead>
           <tbody id="resultsBody"></tbody>
         </table>
       </div>
@@ -511,17 +504,9 @@
 </div>
 
 <script>
-  const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwlQe1sQKiecLqLGAA_II7rDRttZKlnIyWJ76-LH3IrnX64v0LRUT2kFrxdQzAPkojv/exec";
-  let allStudents = [], activeFilter = "all";
+  const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxCw52DxWAtvw2fqb_M8zfOgPa0Mz8qsvbfCYVc5FTXXD3_A3mpv_mIZjZdMze5ro2z3w/exec";
+  let allStudents = [];
 
-  function getGrade(s){
-    if(s>=70)return{label:"A+",cls:"badge-aplus"};
-    if(s>=65)return{label:"A",cls:"badge-a"};
-    if(s>=60)return{label:"B+",cls:"badge-bplus"};
-    if(s>=55)return{label:"B",cls:"badge-b"};
-    if(s>=50)return{label:"C+",cls:"badge-cplus"};
-    return{label:"C",cls:"badge-c"};
-  }
   function toDriveImgUrl(raw){
     if(!raw)return null;
     const url=raw.trim();
@@ -531,116 +516,61 @@
     if(m2)return`https://drive.google.com/thumbnail?id=${m2[1]}&sz=w1000`;
     return null;
   }
-  function parseCSVLine(line){
-    const r=[];let cur="",inQ=false;
-    for(let i=0;i<line.length;i++){
-      const ch=line[i];
-      if(ch==='"'){ if(inQ&&line[i+1]==='"'){ cur+='"';i++; }else inQ=!inQ; }
-      else if(ch===","&&!inQ){r.push(cur.trim());cur="";}
-      else cur+=ch;
-    }
-    r.push(cur.trim());return r;
-  }
-  function parseCSV(text){
-    return text.trim().split("\n").slice(1).map(line=>{
-      if(!line.trim())return null;
-      const cols=parseCSVLine(line);
-      const name=(cols[0]||"").replace(/^"|"$/g,"").trim();
-      const score=parseFloat((cols[1]||"").replace(/^"|"$/g,"").trim());
-      const imageUrl=(cols[2]||"").replace(/^"|"$/g,"").trim();
-      return{name,score,imageUrl};
-    }).filter(s=>s&&s.name&&!isNaN(s.score));
-  }
   function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
   function escA(s){return String(s).replace(/'/g,"&#39;").replace(/"/g,"&quot;");}
 
-  function setFilter(grade,btn){
-    activeFilter=grade;
-    document.querySelectorAll(".filter-btn").forEach(b=>b.classList.remove("active"));
-    btn.classList.add("active");
-    applyFilters();
-  }
   function applyFilters(){
     const q=document.getElementById("searchInput").value.toLowerCase();
     let filtered=allStudents;
-    if(activeFilter!=="all") filtered=filtered.filter(s=>getGrade(s.score).label===activeFilter);
     if(q) filtered=filtered.filter(s=>s.name.toLowerCase().includes(q));
     buildTable(filtered);
     document.getElementById("resultsCount").textContent=filtered.length+" ta natija ko'rsatilmoqda";
     document.getElementById("noResults").style.display=filtered.length?"none":"block";
   }
+
   function buildTable(data){
     const tbody=document.getElementById("resultsBody");
     tbody.innerHTML="";
     data.forEach((s,i)=>{
-      const g=getGrade(s.score);
       const imgUrl=toDriveImgUrl(s.imageUrl);
       const proof=imgUrl
         ?`<button class="proof-btn" onclick="openModal('${escA(s.name)}','${escA(imgUrl)}')">&#128196; Ko'rish</button>`
         :`<span style="color:rgba(255,255,255,0.15);">—</span>`;
       const tr=document.createElement("tr");
-      tr.innerHTML=`<td style="color:rgba(255,255,255,0.25);font-weight:600;">${i+1}</td><td style="font-weight:700;">${esc(s.name)}</td><td><span class="badge ${g.cls}">${g.label}</span></td><td>${proof}</td>`;
+      tr.innerHTML=`<td style="color:rgba(255,255,255,0.25);font-weight:600;">${i+1}</td><td style="font-weight:700;">${esc(s.name)}</td><td>${proof}</td>`;
       tbody.appendChild(tr);
     });
   }
+
   function updateStats(students){
     const total=students.length;
-    const avg=total?(students.reduce((a,s)=>a+s.score,0)/total).toFixed(1):"—";
     document.getElementById("total-students").textContent=total;
-    document.getElementById("avg-score").textContent=avg;
-    const success=students.filter(s=>s.score>=55).length;
-    const pct=total?Math.round(success/total*100):0;
-    document.getElementById("success-pct").textContent=pct+"%";
-    setTimeout(()=>{document.getElementById("success-bar").style.width=pct+"%";},400);
-    const grades=[
-      {label:"A+",count:students.filter(s=>s.score>=70).length,color:"#f43f5e"},
-      {label:"A",count:students.filter(s=>s.score>=65&&s.score<70).length,color:"#fb923c"},
-      {label:"B+",count:students.filter(s=>s.score>=60&&s.score<65).length,color:"#F5A800"},
-      {label:"B",count:students.filter(s=>s.score>=55&&s.score<60).length,color:"#34d399"},
-      {label:"C+",count:students.filter(s=>s.score>=50&&s.score<55).length,color:"#38bdf8"},
-      {label:"C",count:students.filter(s=>s.score<50).length,color:"#a78bfa"},
-    ];
-    document.getElementById("grade-dist").innerHTML=grades.map(g=>`<div class="dist-item"><div class="dist-dot" style="background:${g.color}"></div>${g.label}: <b>${g.count}</b></div>`).join("");
-
-    // Bar chart
-    const maxCount = Math.max(...grades.map(g=>g.count), 1);
-    document.getElementById("gradeBars").innerHTML = grades.map(g => {
-      const pct = Math.round(g.count / maxCount * 100);
-      return `<div class="bar-row">
-        <div class="bar-label" style="color:${g.color}">${g.label}</div>
-        <div class="bar-outer">
-          <div class="bar-inner" style="width:0%;background:${g.color};transition-delay:0.3s" data-w="${pct}">
-            <span class="bar-count">${g.count > 0 ? g.count : ""}</span>
-          </div>
-        </div>
-      </div>`;
-    }).join("");
-    setTimeout(()=>{
-      document.querySelectorAll(".bar-inner").forEach(b=>{
-        b.style.width = b.dataset.w + "%";
-      });
-    }, 200);
+    document.querySelectorAll(".reveal").forEach(el=>el.classList.add("visible"));
   }
+
   async function loadStudents(){
     try{
       const res=await fetch(APPS_SCRIPT_URL);
       if(!res.ok)throw new Error("failed");
-      const csv=await res.text();
-      allStudents=parseCSV(csv);
+      const json=await res.json();
+      allStudents=json.map(row=>({
+        name: row["Name"] || "",
+        imageUrl: row["Certificate images"] || ""
+      })).filter(s=>s.name);
       document.getElementById("loadingState").style.display="none";
       document.getElementById("tableWrapper").style.display="block";
       applyFilters();
       updateStats(allStudents);
       document.getElementById("resultsCount").textContent=allStudents.length+" ta natija ko'rsatilmoqda";
-      document.querySelectorAll(".reveal").forEach(el=>el.classList.add("visible"));
     }catch(err){
       document.getElementById("loadingState").style.display="none";
       document.getElementById("errorState").style.display="block";
     }
   }
+
   function openModal(name,imgUrl){
     document.getElementById("modalTitle").textContent=name+" — Sertifikat";
-    document.getElementById("modalBody").innerHTML=`<img src="${imgUrl}" onerror="this.parentElement.innerHTML='<p class=modal-error>&#10060; Rasmni ochib bo\'lmadi. Google Drive da Share &rarr; Anyone with the link qiling.</p>'"/>`;
+    document.getElementById("modalBody").innerHTML=`<img src="${imgUrl}" onerror="this.parentElement.innerHTML='<p class=modal-error>&#10060; Rasmni ochib bo\'lmadi.</p>'"/>`;
     document.getElementById("modalOverlay").classList.add("open");
     document.body.style.overflow="hidden";
   }
@@ -650,6 +580,7 @@
     document.body.style.overflow="";
     document.getElementById("modalBody").innerHTML='<p class="modal-loading">Yuklanmoqda...</p>';
   }
+
   window.addEventListener("scroll",()=>{
     document.getElementById("navbar").classList.toggle("scrolled",window.scrollY>20);
     const secs=["home","about","results"];
@@ -657,6 +588,7 @@
     secs.forEach(id=>{const el=document.getElementById(id);if(el&&window.scrollY>=el.offsetTop-100)cur=id;});
     document.querySelectorAll(".nav-links a").forEach(a=>a.classList.toggle("active",a.getAttribute("href")==="#"+cur));
   });
+
   function toggleMenu(){document.getElementById("mobileMenu").classList.toggle("open");}
   const observer=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add("visible");});},{threshold:0.1});
   document.querySelectorAll(".reveal").forEach(r=>observer.observe(r));
@@ -666,27 +598,26 @@
       if(t){e.preventDefault();t.scrollIntoView({behavior:"smooth"});}
     });
   });
-  // Theme toggle
+
   function toggleTheme(){
-    const html = document.documentElement;
-    const btn = document.getElementById('themeToggle');
-    if(html.dataset.theme === 'light'){
+    const html=document.documentElement;
+    const btn=document.getElementById('themeToggle');
+    if(html.dataset.theme==='light'){
       html.removeAttribute('data-theme');
-      btn.textContent = '🌙';
+      btn.textContent='🌙';
       localStorage.setItem('theme','dark');
-    } else {
-      html.dataset.theme = 'light';
-      btn.textContent = '☀️';
+    }else{
+      html.dataset.theme='light';
+      btn.textContent='☀️';
       localStorage.setItem('theme','light');
     }
   }
-  // Restore saved theme
   (function(){
-    const saved = localStorage.getItem('theme');
-    if(saved === 'light'){
-      document.documentElement.dataset.theme = 'light';
-      const btn = document.getElementById('themeToggle');
-      if(btn) btn.textContent = '☀️';
+    const saved=localStorage.getItem('theme');
+    if(saved==='light'){
+      document.documentElement.dataset.theme='light';
+      const btn=document.getElementById('themeToggle');
+      if(btn)btn.textContent='☀️';
     }
   })();
 
